@@ -1,22 +1,51 @@
 #include "draw_texture.h"
 #include "SDL2/SDL_render.h"
+#include "SDL2/SDL_stdinc.h"
+#include "SDL2/SDL_surface.h"
 #include <stdio.h>
 
-extern int height, width;
 
-void draw_texture(const Grid *pGrid, SDL_Renderer *pRender, SDL_Texture *pTexture) {
+// draw the grid
+void draw_grid_texture(const Grid *pGrid, SDL_Renderer *pRender, SDL_Texture *pTexture, int size) {
+    int height = size;
+    int width = size;
+    // save the environment
     SDL_Texture *temp = SDL_GetRenderTarget(pRender);
+    Uint8 old_r, old_g, old_b, old_a;
+    SDL_GetRenderDrawColor(pRender, &old_r, &old_g, &old_b, &old_a);
+
+    // clean the texture
     SDL_SetRenderTarget(pRender, pTexture);
     SDL_SetRenderDrawColor(pRender, 255, 255, 255, 255);
     SDL_RenderClear(pRender);
-    SDL_SetRenderDrawColor(pRender, 0, 0, 0, 255);
+
+    // draw grid
+    SDL_SetRenderDrawColor(pRender, 255, 128, 0, 255);
     for (int i = 0; i <= pGrid->row; i++) {
         SDL_RenderDrawLine(pRender, 0, height * i / pGrid->row, width, height * i / pGrid->row);
     }
-    printf("%d%d\n", pGrid->row, pGrid->col);
+
     for (int j = 0; j <= pGrid->col; j++) {
         SDL_RenderDrawLine(pRender, width * j / pGrid->col, 0, width * j / pGrid->col, height);
     }
+
+    // draw cells
+    SDL_SetRenderDrawColor(pRender, 0, 0, 0, 255);
+    for (int i = 0; i < pGrid->row; i++) {
+        for (int j = 0; j < pGrid->col; j++) {
+            if (pGrid->gridData[i][j]) {
+                SDL_Rect rect = {j * width / pGrid->col + 1, i * height / pGrid->row + 1,
+                    width / pGrid->col - 2, height / pGrid->row - 2};
+                SDL_RenderFillRect(pRender, &rect);
+            }
+        }
+    }
+    // recover
     SDL_RenderPresent(pRender);
+    SDL_SetRenderDrawColor(pRender, old_r, old_g, old_b, old_a);
     SDL_SetRenderTarget(pRender, temp);
+}
+
+void draw_button_texture(SDL_Renderer *pRender, SDL_Texture *pTexture, int width, int height) {
+    
 }
