@@ -29,11 +29,16 @@ int calc_neighbor(const Grid *pGrid, int i, int j) {
             sum += pGrid->gridData[p][q];
         }
     }
+    sum -= pGrid->gridData[i][j];
     return sum;
 }
 
 // update the data to get the next status
-void update_grid(Grid *pGrid) {
+
+// update the data to get the next status
+int update_grid(Grid *pGrid) {
+    // flag
+    int change = 0;
     // realloc a new data memory
     int **new_data = alloc_grid(pGrid);
     for (int i = 0; i < pGrid->row; i++) {
@@ -49,12 +54,16 @@ void update_grid(Grid *pGrid) {
             } else {                                // die
                 new_data[i][j] = 0;
             }
+            if (new_data[i][j] != pGrid->gridData[i][j]) {
+                change = 1;
+            }
         }
     }
     // destroy old data
     free_grid(pGrid);
     // update
     pGrid->gridData = new_data;
+    return change;
 }
 
 // alloc memory to save the data of the grid

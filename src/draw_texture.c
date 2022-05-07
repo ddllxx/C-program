@@ -26,7 +26,7 @@ void draw_grid_texture(const Grid *pGrid, SDL_Renderer *pRender, SDL_Texture *pT
     }
 
     for (int j = 0; j <= pGrid->col; j++) {
-        SDL_RenderDrawLine(pRender, width * j / pGrid->col, 0, width * j / pGrid->col, height);
+        SDL_RenderDrawLine(pRender, width * j / pGrid->col - 1, 0, width * j / pGrid->col - 1, height);
     }
 
     // draw cells
@@ -46,6 +46,9 @@ void draw_grid_texture(const Grid *pGrid, SDL_Renderer *pRender, SDL_Texture *pT
     SDL_SetRenderTarget(pRender, temp);
 }
 
-void draw_button_texture(SDL_Renderer *pRender, SDL_Texture *pTexture, int width, int height) {
-    
+SDL_Texture *get_button_texture(SDL_Renderer *pRender) {
+    SDL_Surface *pSurf = SDL_LoadBMP("./resources/tips.bmp");
+    SDL_Texture *tempTexture = SDL_CreateTextureFromSurface(pRender, pSurf);
+    SDL_FreeSurface(pSurf);
+    return tempTexture;
 }

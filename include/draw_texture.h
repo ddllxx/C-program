@@ -3,3 +3,5 @@
 #include "grid.h"
 
 void draw_grid_texture(const Grid *pGrid, SDL_Renderer *pRender, SDL_Texture *pTexture, int size);
+
+SDL_Texture *get_button_texture(SDL_Renderer *pRender);

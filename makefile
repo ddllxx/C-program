@@ -4,7 +4,7 @@ INCLUDEDIR = .$(pathSeparator)include
 # INCLUDEDIR += .$(pathSeparator)include$(pathSeparator)SDL_include
 DEL_COMMAND  = rm
 CC = gcc
-CFLAG = -g -I$(INCLUDEDIR) -std=c99
+CFLAG = -g -I$(INCLUDEDIR) -no-pie
 
 SRCDIR = .$(pathSeparator)src
 BUILDDIR = .$(pathSeparator)build
@@ -16,7 +16,7 @@ NAME = game_of_life
 all : init_folder $(NAME)
 
 $(NAME) : $(OBJDIR)$(pathSeparator)main.o $(OBJDIR)$(pathSeparator)grid.o $(OBJDIR)$(pathSeparator)draw_texture.o
-	$(CC) $(CFLAG) $^ -o $(BUILDDIR)$(pathSeparator)$@ -lSDL2
+	$(CC) $(CFLAG) $^ -o $(BUILDDIR)$(pathSeparator)$@ -lSDL2 -lSDL2main
 	cp $(BUILDDIR)$(pathSeparator)$(NAME) $(NAME)
 	echo 10 10 500 > grid.txt
 	echo 0 0 0 0 0 0 0 0 0 0 >> grid.txt
