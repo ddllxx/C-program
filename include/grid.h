@@ -6,7 +6,7 @@ typedef struct Grid {
     int **gridData;
 } Grid;
 
-void init_grid(Grid *pGrid, int *delay, FILE *fp);
+void init_grid(Grid *pGrid, FILE *fp);
 
 int calc_neighbor(const Grid *pGrid, int i, int j);
 

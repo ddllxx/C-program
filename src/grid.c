@@ -6,8 +6,8 @@
 int **alloc_grid(const Grid *pGrid);
 
 // get data from a file
-void init_grid(Grid *pGrid, int *delay, FILE *fp) {
-    fscanf(fp, "%d%d%d", &pGrid->row, &pGrid->col, delay);
+void init_grid(Grid *pGrid, FILE *fp) {
+    fscanf(fp, "%d%d", &pGrid->row, &pGrid->col);
     pGrid->gridData = alloc_grid(pGrid);
     for (int i = 0; i < pGrid->row; i++) {
         for (int j = 0; j < pGrid->col; j++) {
@@ -89,7 +89,7 @@ void output_file(const Grid *pGrid, int delay, const char *filename) {
     if (output == NULL) {
         fprintf(stderr, "can't open %s\n", filename);
     }
-    fprintf(output, "%d %d %d\n", pGrid->row, pGrid->col, delay);
+    fprintf(output, "%d %d %d %d\n", 0, delay, pGrid->row, pGrid->col);
     for (int i = 0; i < pGrid->row; i++) {
         for (int j = 0; j < pGrid->col; j++) {
             fprintf(output, "%d", pGrid->gridData[i][j]);
@@ -101,5 +101,6 @@ void output_file(const Grid *pGrid, int delay, const char *filename) {
             fputs("\n", output);
         }
     }
+    fclose(output);
 }
 
