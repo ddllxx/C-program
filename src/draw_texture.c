@@ -7,6 +7,9 @@
 
 // draw the grid
 void draw_grid_texture(const Grid *pGrid, SDL_Renderer *pRender, SDL_Texture *pTexture, int size) {
+    if (pGrid == NULL || pRender == NULL || pTexture == NULL || size <= 0) {
+        ERREXIR("error NULL pointer");
+    }
     int height = size;
     int width = size;
     // save the environment
@@ -47,6 +50,9 @@ void draw_grid_texture(const Grid *pGrid, SDL_Renderer *pRender, SDL_Texture *pT
 }
 
 SDL_Texture *get_button_texture(SDL_Renderer *pRender) {
+    if (pRender == NULL) {
+        ERREXIR("error NULL pointer");
+    }
     SDL_Surface *pSurf = SDL_LoadBMP("./resources/tips.bmp");
     SDL_Texture *tempTexture = SDL_CreateTextureFromSurface(pRender, pSurf);
     SDL_FreeSurface(pSurf);

@@ -1,5 +1,10 @@
 #include <stdio.h>
-
+#include <stdlib.h>
+#include <stdlib.h>
+#define ERREXIR(message) do {\
+    fprintf(stderr, message);\
+    exit(EXIT_FAILURE);\
+} while (0)
 typedef struct Grid {
     int row;
     int col;

@@ -7,6 +7,9 @@ int **alloc_grid(const Grid *pGrid);
 
 // get data from a file
 void init_grid(Grid *pGrid, FILE *fp) {
+    if (pGrid == NULL || fp == NULL) {
+        ERREXIR("error NULL pointer");
+    }
     fscanf(fp, "%d%d", &pGrid->row, &pGrid->col);
     pGrid->gridData = alloc_grid(pGrid);
     for (int i = 0; i < pGrid->row; i++) {
@@ -18,6 +21,9 @@ void init_grid(Grid *pGrid, FILE *fp) {
 
 // calc the number of neighbor of a cell which pos is (i, j)
 int calc_neighbor(const Grid *pGrid, int i, int j) {
+    if (pGrid == NULL) {
+        ERREXIR("error NULL pointer");
+    }
     int sum = 0;
     // get the border limit
     int start_i = i > 0 ? i - 1 : 0;
@@ -37,6 +43,9 @@ int calc_neighbor(const Grid *pGrid, int i, int j) {
 
 // update the data to get the next status
 int update_grid(Grid *pGrid) {
+    if (pGrid == NULL) {
+        ERREXIR("error NULL pointer");
+    }
     // flag
     int change = 0;
     // realloc a new data memory
@@ -85,6 +94,9 @@ void free_grid(Grid *pGrid) {
 
 // dave the data to a file
 void output_file(const Grid *pGrid, int delay, const char *filename) {
+    if (pGrid == NULL) {
+        ERREXIR("error NULL pointer");
+    }
     FILE * output = fopen(filename, "w+");
     if (output == NULL) {
         fprintf(stderr, "can't open %s\n", filename);

@@ -30,7 +30,7 @@ static enum Statu go = life_stop;
 
 int main(int argc, char *argv[]) {
     if (argc != 2) {
-        printf("Usage: %s %s", argv[0], "initial status file\n");
+        printf("Usage: %s %s", argv[0], "initial status file");
         return 0;
     }
     if (init_all(argv[1]) != 0) {
