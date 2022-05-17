@@ -19,6 +19,30 @@ void init_grid(Grid *pGrid, FILE *fp) {
     }
 }
 
+void init_grid2(Grid *pGrid, int row, int col, int value) {
+    if (pGrid == NULL) {
+        ERREXIR("error NULL pointer");
+    }
+    pGrid->row = row;
+    pGrid->col = col;
+    pGrid->gridData = alloc_grid(pGrid);
+    for (int i = 0; i < pGrid->row; i++) {
+        for (int j = 0; j < pGrid->col; j++) {
+            pGrid->gridData[i][j] = value;
+        }
+    }
+}
+
+void switch_grid_cell(Grid *pGrid, int index_i, int index_j) {
+    if (pGrid == NULL) {
+        ERREXIR("error NULL pointer");
+    }
+    if (index_i < 0 || index_j < 0 || index_i >= pGrid->row || index_j >= pGrid->col) {
+        ERREXIR("index out of range.");
+    }
+    pGrid->gridData[index_i][index_j] = !pGrid->gridData[index_i][index_j];
+}
+
 // calc the number of neighbor of a cell which pos is (i, j)
 int calc_neighbor(const Grid *pGrid, int i, int j) {
     if (pGrid == NULL) {

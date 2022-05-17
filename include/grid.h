@@ -20,3 +20,7 @@ int update_grid(Grid *pGrid);
 void free_grid(Grid *pGrid);
 
 void output_file(const Grid *pGrid, int delay, const char *filename);
+
+void init_grid2(Grid *pGrid, int row, int col, int value);
+
+void switch_grid_cell(Grid *pGrid, int index_i, int index_j);

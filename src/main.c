@@ -8,6 +8,7 @@
 
 Uint32 update(Uint32 n, void *p);
 int init_all(const char *init_file);
+int sub_init(void);
 void free_all(void);
 
 const int width = 960;
@@ -29,14 +30,28 @@ enum Statu {life_next = 1, life_run = 2, life_stop = 3};
 static enum Statu go = life_stop;
 
 int main(int argc, char *argv[]) {
-    if (argc != 2) {
+    // deal with the args
+    if (argc == 5) {
+        limit = atoi(argv[1]);
+        delay = atoi(argv[2]);
+        init_grid2(&grid, atoi(argv[3]), atoi(argv[4]), 0);
+        if (sub_init() != 0) {
+            free_all();
+            printf("error\n");
+            return -1;
+        }
+    } else if (argc == 2) {
+        if (init_all(argv[1]) != 0) {
+            free_all();
+            printf("error\n");
+            return -1;
+        }
+    } else {
         printf("Usage: %s %s", argv[0], "initial status file");
+        printf(" OR:\n""%s limit_steps update_interval row col\n", argv[0]);
         return 0;
     }
-    if (init_all(argv[1]) != 0) {
-        free_all();
-        return -1;
-    }
+
     SDL_ShowWindow(pWnd);
     SDL_TimerID timmer_id = SDL_AddTimer(delay, update, &go);
     SDL_Event event;
@@ -67,6 +82,21 @@ int main(int argc, char *argv[]) {
                     output_file(&grid, delay, name);
                 }
                 break;
+            case SDL_MOUSEBUTTONDOWN: {
+                if (event.button.state != SDL_BUTTON_LEFT) {
+                    break;
+                }
+                int posX = event.button.x;
+                int posY = event.button.y;
+                if (posX > height || posY > height) {
+                    break;
+                }
+                // bad design, but for convenience
+                int index_i = posY / (height / (double)grid.row);
+                int index_j = posX / (height / (double)grid.col);
+                switch_grid_cell(&grid, index_i, index_j);
+                break;
+            }
             default:
                 break;
             }
@@ -82,15 +112,19 @@ Uint32 update(Uint32 interval, void *p) {
     static int output = 0;
     enum Statu *statu = p;
     if (*statu == life_run) {
-        if (update_grid(&grid) == 0) {
-            *statu = life_stop;
-        } else {
-            count++;
-        }
+        // if (update_grid(&grid) == 0) {
+        //     *statu = life_stop;
+        // } else {
+        //     count++;
+        // }
+        update_grid(&grid);
+        count++;
     } else if (*statu == life_next) {
-        if (update_grid(&grid) != 0) {
-            count++;
-        }
+        // if (update_grid(&grid) != 0) {
+        //     count++;
+        // }
+        update_grid(&grid);
+        count++;
         *statu = life_stop;
     } else if (*statu != life_stop) {
         return 0;
@@ -121,6 +155,10 @@ int init_all(const char *init_file) {
     }
     fscanf(fp, "%d%d", &limit, &delay);
     init_grid(&grid, fp);
+    return sub_init();
+}
+
+int sub_init(void) {
     SDL_Init(SDL_INIT_VIDEO);
     pWnd = SDL_CreateWindow("game of life", SDL_WINDOWPOS_UNDEFINED,
         SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_SHOWN);
