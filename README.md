@@ -5,8 +5,6 @@ https://github.com/ddllxx/C-program
 
 ## Submission History Screenshot
 ![Image text]()
-![Image text]()
-![Image text]()
 
 ## Name
 Game of life
