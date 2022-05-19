@@ -1,10 +1,10 @@
 # XJCO 1921 Programming Project - Coursework 2- Game of life 
 
 ## URL
-https://github.com/ddllxx/C-program
+https://github.com/ddllxx/C-program/tree/master
 
 ## Submission History Screenshot
-![Image text]()
+![Image text](https://github.com/ddllxx/C-program/blob/master/history.png)
 
 ## Name
 Game of life
